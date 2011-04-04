@@ -18,12 +18,15 @@ class MultilingualFlatpageForm(MultilingualModelAdminForm):
 
 class MultilingualFlatPageAdmin(MultilingualModelAdmin):
     form = MultilingualFlatpageForm
-    use_fieldsets = (
-        (None, {'fields': ('title', 'url', 'sites', 'content')}),
-        (_('Advanced options'), {'classes': ('collapse',), 'fields': ('enable_comments', 'registration_required', 'template_name')}),
-    )
     list_display = ('url', 'title')
     list_filter = ('sites', 'enable_comments', 'registration_required')
     search_fields = ('url', 'title')
+
+    def get_fieldsets(self, request, obj=None):
+        fieldsets = (
+            (None, {'fields': ('title', 'url', 'sites', 'content')}),
+            (_('Advanced options'), {'classes': ('collapse',), 'fields': ('enable_comments', 'registration_required', 'template_name')}),
+        )
+        return fieldsets
 
 admin.site.register(MultilingualFlatPage, MultilingualFlatPageAdmin)
