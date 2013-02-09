@@ -293,6 +293,11 @@ class MultilingualModelAdmin(admin.ModelAdmin):
         return self.fill_check_field
     
     def get_form(self, request, obj=None, **kwargs):    
+        # assign language to inlines, so they now how to render
+        for inline in self.inline_instances:
+            if isinstance(inline, MultilingualInlineAdmin):
+                inline.use_language = GLL.language_code
+        
         Form = super(MultilingualModelAdmin, self).get_form(request, obj, **kwargs)
         
         Form.ml_fields = {}

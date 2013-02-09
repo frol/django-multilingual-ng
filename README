@@ -3,3 +3,5 @@ Django Multilingual-NG
 ======================
 
 THIS PROJECT IS NOT SUPPORTED AND SHOULD NOT BE USED UNLESS YOU KNOW EXACTLY WHAT YOU ARE DOING!!!
+
+There is optional Jinja2 (with Coffin) support.
