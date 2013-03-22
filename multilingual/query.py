@@ -18,7 +18,7 @@ from django.db.models.sql.datastructures import (
     EmptyResultSet,
     Empty,
     MultiJoin)
-from django.db.models.sql.constants import *
+from django.db.models.constants import LOOKUP_SEP
 from django.db.models.sql.where import WhereNode, EverythingNode, AND, OR
 
 try:
@@ -154,7 +154,7 @@ class MultilingualQuery(Query):
             join_list = join_list[:penultimate]
             final = penultimate
             penultimate = last.pop()
-            col = self.alias_map[extra[0]][LHS_JOIN_COL]
+            col = self.alias_map[extra[0]].lhs_join_col
             for alias in extra:
                 self.unref_alias(alias)
         else:
@@ -168,11 +168,11 @@ class MultilingualQuery(Query):
             # repeat the optimization). The result, potentially, involves less
             # table joins.
             join = self.alias_map[alias]
-            if col != join[RHS_JOIN_COL]:
+            if col != join.rhs_join_col:
                 break
             self.unref_alias(alias)
-            alias = join[LHS_ALIAS]
-            col = join[LHS_JOIN_COL]
+            alias = join.lhs_alias
+            col = join.lhs_join_col
             join_list = join_list[:-1]
             final -= 1
             if final == penultimate:
@@ -216,7 +216,7 @@ class MultilingualQuery(Query):
                 if final > 1:
                     for alias in join_list:
                         if self.alias_map[alias][JOIN_TYPE] == self.LOUTER:
-                            j_col = self.alias_map[alias][RHS_JOIN_COL]
+                            j_col = self.alias_map[alias].rhs_join_col
                             entry = self.where_class()
                             entry.add(constraint_tuple(alias, j_col, None, 'isnull', True), AND)
                             entry.negate()
