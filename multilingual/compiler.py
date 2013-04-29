@@ -6,6 +6,7 @@ This file contains the implementation for QSRF Django.
 
 Huge thanks to hubscher.remy for writing this!
 """
+from django import VERSION as DJANGO_VERSION
 from django.db.models.sql.compiler import SQLCompiler
 
 from multilingual.languages import (
@@ -32,7 +33,10 @@ class MultilingualSQLCompiler(SQLCompiler):
         qn2 = self.connection.ops.quote_name
 
         if hasattr(opts, 'translation_model'):
-            master_table_name = self.query.join((None, opts.db_table, None, None))
+            if DJANGO_VERSION >= (1, 6):
+                master_table_name = self.query.join((None, opts.db_table, None))
+            else:
+                master_table_name = self.query.join((None, opts.db_table, None, None))
             translation_opts = opts.translation_model._meta
             trans_table_name = translation_opts.db_table
             for language_code in get_language_code_list():
