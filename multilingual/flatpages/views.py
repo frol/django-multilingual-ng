@@ -2,7 +2,6 @@ from multilingual.flatpages.models import MultilingualFlatPage
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
 from django.conf import settings
-from django.core.xheaders import populate_xheaders
 from django.utils.translation import get_language
 import multilingual
 
@@ -54,5 +53,4 @@ def multilingual_flatpage(request, url):
         'flatpage': f,
     })
     response = HttpResponse(t.render(c))
-    populate_xheaders(request, response, MultilingualFlatPage, f.id)
     return response
