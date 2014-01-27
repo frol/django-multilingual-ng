@@ -1,12 +1,16 @@
 from multilingual.flatpages.models import MultilingualFlatPage
-from django.template import loader, RequestContext
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
 from django.conf import settings
-from django.core.xheaders import populate_xheaders
-from django.utils.safestring import mark_safe
 from django.utils.translation import get_language
 import multilingual
+
+if 'coffin' in settings.INSTALLED_APPS:
+    from coffin.template import loader, RequestContext
+    from jinja2 import Markup as mark_safe
+else:
+    from django.template import loader, RequestContext
+    from django.utils.safestring import mark_safe
 
 DEFAULT_TEMPLATE = 'flatpages/default.html'
 
@@ -49,5 +53,4 @@ def multilingual_flatpage(request, url):
         'flatpage': f,
     })
     response = HttpResponse(t.render(c))
-    populate_xheaders(request, response, MultilingualFlatPage, f.id)
     return response

@@ -18,8 +18,8 @@ class MultilingualQuery(Query):
 
     For proper function we need to take care of JOINs between multilingual and translation tables.
     """
-    def setup_joins(self, names, opts, alias, dupe_multis, allow_many=True,
-            allow_explicit_fk=False, can_reuse=None, negate=False,
+    def setup_joins(self, names, opts, alias, can_reuse=None,
+            allow_many=True, allow_explicit_fk=False, negate=False,
             process_extras=True):
         """
         This overrides setup_joins method in case we want to join multilingual field.
@@ -33,7 +33,7 @@ class MultilingualQuery(Query):
         # Field is not multilingual, proceed as usual
         if not field or not isinstance(field, TranslationProxyField):
             return super(MultilingualQuery, self).setup_joins(
-                names, opts, alias, dupe_multis, allow_many, allow_explicit_fk, can_reuse, negate, process_extras
+                names, opts, alias, can_reuse, allow_many, allow_explicit_fk
             )
 
         if len(names) > 1:
