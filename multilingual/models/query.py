@@ -11,6 +11,6 @@ class MultilingualQuerySet(QuerySet):
     A specialized QuerySet that knows how to handle translatable
     fields in ordering and filtering methods.
     """
-    def __init__(self, model=None, query=None, using=None):
+    def __init__(self, model=None, query=None, **kwargs):
         query = query or MultilingualQuery(model)
-        super(MultilingualQuerySet, self).__init__(model, query, using)
+        super(MultilingualQuerySet, self).__init__(model, query, **kwargs)

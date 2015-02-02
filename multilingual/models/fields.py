@@ -64,7 +64,8 @@ class TranslationRelation(ForeignObject):
     """
     requires_unique_target = False  # This avoids django validation
 
-    def __init__(self, to, base_name, language_code=None, **kwargs):
+    def __init__(self, to, from_fields=None, to_fields=None, base_name=None, language_code=None,
+            related_name=None, on_delete=None, **kwargs):
         self._base_name = base_name
         self._language_code = language_code
 
@@ -83,8 +84,13 @@ class TranslationRelation(ForeignObject):
         kwargs['unique'] = True
         kwargs['null'] = True
 
-        to_fields = ['master']
-        super(TranslationRelation, self).__init__(to, [], to_fields, **kwargs)
+        if from_fields is None:
+            from_fields = []
+        if to_fields is None:
+            to_fields = ['master']
+        super(TranslationRelation, self).__init__(to,
+            from_fields=from_fields,
+            to_fields=to_fields, **kwargs)
 
     def contribute_to_class(self, cls, name, virtual_only=False):
         super(TranslationRelation, self).contribute_to_class(cls, name, virtual_only=virtual_only)

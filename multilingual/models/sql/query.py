@@ -21,8 +21,7 @@ class MultilingualQuery(Query):
 
     For proper function we need to take care of JOINs between multilingual and translation tables.
     """
-    def build_filter(self, filter_expr, branch_negated=False, current_negated=False,
-                     can_reuse=None):
+    def build_filter(self, filter_expr, **kwargs):
         """
         Build filters with respect to the multilingual fields.
         """
@@ -33,8 +32,7 @@ class MultilingualQuery(Query):
         new_name = expand_lookup(self.get_meta(), field_name)
         filter_expr = LOOKUP_SEP.join([new_name] + parts[1:]), value
 
-        return super(MultilingualQuery, self).build_filter(filter_expr, branch_negated=branch_negated,
-                                                           current_negated=current_negated, can_reuse=can_reuse)
+        return super(MultilingualQuery, self).build_filter(filter_expr, **kwargs)
 
     def add_fields(self, field_names, allow_m2m=True):
         opts = self.get_meta()
