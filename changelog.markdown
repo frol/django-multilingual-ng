@@ -6,10 +6,16 @@
 #### 0.4.0 ####
  * Support Django 1.4 and 1.5.
  * Upgrade flatpages.
- * Change in flatpages database structure:
+ * Change in flatpages database structure (PostgreSQL):
 
    ```sql
    ALTER TABLE "multilingual_flatpage_sites" RENAME COLUMN "multilingualflatpage_id" TO "flatpage_id";
+   ```
+
+    OR (MySQL):
+
+   ```sql
+   ALTER TABLE `multilingual_flatpage_sites` CHANGE `multilingualflatpage_id` `flatpage_id` INT;
    ```
 
  * Remove deprecated code from django-multilingual-ng.
