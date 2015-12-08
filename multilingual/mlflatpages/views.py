@@ -13,6 +13,8 @@ else:
 
 from .models import FlatPage
 
+DEFAULT_TEMPLATE = 'flatpages/default.html'
+
 # This view is called from FlatpageFallbackMiddleware.process_response
 # when a 404 is raised, which often means CsrfViewMiddleware.process_view
 # has not been called even if CsrfViewMiddleware is installed. So we need
